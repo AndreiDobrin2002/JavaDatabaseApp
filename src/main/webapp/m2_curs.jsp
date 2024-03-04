@@ -1,0 +1,81 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.lang.*,java.math.*,db.*,java.sql.*, java.io.*, java.util.*"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Tabela Cursuri</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        p, a {
+            text-align: center;
+            margin-top: 10px;
+        }
+        #container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        a {
+            text-decoration: none;
+            color: #0066cc;
+            font-weight: bold;
+            margin: 0 10px;
+            display: inline-block;
+            border: 2px solid #0066cc;
+            border-radius: 5px;
+            padding: 10px 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        a:hover {
+            background-color: #0066cc;
+            color: #fff;
+        }
+    </style>
+</head>
+<jsp:useBean id="jb" scope="session" class="db.JavaBean" />
+<jsp:setProperty name="jb" property="*" />
+<body>
+    <div id="container">
+        <h1>Tabela Cursuri</h1>
+        <br/>
+        <p>
+            <a href="nou_cursuri.jsp">Adauga un nou curs</a>
+        </p>
+        <%
+            jb.connect();
+            int aux = java.lang.Integer.parseInt(request.getParameter("idcurs"));
+            String Denumire = request.getParameter("Denumire");
+            String AnRecomandat = request.getParameter("AnRecomandat");
+            String FacultateRecomandata = request.getParameter("FacultateRecomandata");
+            String Domeniu = request.getParameter("Domeniu");
+            String Semestru = request.getParameter("Semestru");
+
+            String[] valori = {Denumire, AnRecomandat, FacultateRecomandata, Domeniu, Semestru};
+            String[] campuri = {"Denumire", "AnRecomandat", "FacultateRecomandata", "Domeniu", "Semestru"};
+            jb.modificaTabela("cursuri", "idcurs", aux, campuri, valori);
+            jb.disconnect();
+        %>
+        <h1>Modificarile au fost efectuate!</h1>
+        <p>
+            <a href="index.html">Home</a>
+            <a href="modifica_curs.jsp">Modifică Cursuri</a>
+        </p>
+    </div>
+</body>
+</html>
